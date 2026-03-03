@@ -1,6 +1,9 @@
+import java.util.List;
+import java.util.ArrayList;
+
 public class SimulationEngine
 {
-    private Vehicle vehicle;
+    private List<Vehicle> vehicles;
 
     private int currentTick = 0;
     private boolean running = false;
@@ -18,15 +21,22 @@ public class SimulationEngine
 
     private void tick()
     {
-        vehicle.update();
-        System.out.println(
-                "Tick: " + currentTick +
-                        " Position: " +
-                        vehicle.getPosition());
+        System.out.println("Tick: " + currentTick);
+
+        for (Vehicle v : vehicles)
+        {
+            v.update();
+            System.out.println("Position: " + v.getPosition());
+        }
     }
 
-    public SimulationEngine(Vehicle vehicle)
+    public SimulationEngine()
     {
-        this.vehicle = vehicle;
+        this.vehicles = new ArrayList<>();
+    }
+
+    public void addVehicle(Vehicle vehicle)
+    {
+        vehicles.add(vehicle);
     }
 }
