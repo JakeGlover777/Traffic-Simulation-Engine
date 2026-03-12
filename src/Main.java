@@ -4,9 +4,9 @@ public class Main
     {
         SimulationEngine engine = new SimulationEngine();
 
-        Vehicle car1 = new Vehicle(1.5);
-        Vehicle car2 = new Vehicle(1.0);
-        Vehicle car3 = new Vehicle(2.0);
+        Vehicle car1 = new Vehicle(1.5,1);
+        Vehicle car2 = new Vehicle(1.0,2);
+        Vehicle car3 = new Vehicle(2.0,3);
 
         engine.addVehicle(car1);
         engine.addVehicle(car2);
