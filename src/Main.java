@@ -4,9 +4,11 @@ public class Main
     {
         SimulationEngine engine = new SimulationEngine();
 
-        Vehicle car1 = new Vehicle(1.5,1);
-        Vehicle car2 = new Vehicle(1.0,2);
-        Vehicle car3 = new Vehicle(2.0,3);
+        Road road = engine.getRoad();
+
+        Vehicle car1 = new Vehicle(1.5,3,1, road);
+        Vehicle car2 = new Vehicle(1.0,4,2, road);
+        Vehicle car3 = new Vehicle(2.0,2,3, road);
 
         engine.addVehicle(car1);
         engine.addVehicle(car2);

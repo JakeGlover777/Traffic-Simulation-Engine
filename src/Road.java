@@ -27,4 +27,21 @@ public class Road
             vehicle.update();
         }
     }
+
+    public Vehicle getVehicleAhead(Vehicle currentVehicle)
+    {
+        Vehicle closestAhead = null;
+
+        for (Vehicle vehicle : vehicles)
+        {
+            if(vehicle.getPosition() > currentVehicle.getPosition())
+            {
+                if(closestAhead == null|| vehicle.getPosition() < closestAhead.getPosition())
+                {
+                    closestAhead = vehicle;
+                }
+            }
+        }
+        return closestAhead;
+    }
 }

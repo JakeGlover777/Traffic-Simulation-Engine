@@ -36,4 +36,11 @@ public class SimulationEngine
     {
         road.addVehicle(vehicle);
     }
+
+
+    public Road getRoad()
+    {
+        return road;
+    }
 }
+
