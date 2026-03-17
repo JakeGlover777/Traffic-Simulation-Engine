@@ -1,12 +1,8 @@
-import java.util.List;
-import java.util.ArrayList;
-
 public class SimulationEngine
 {
-    private List<Vehicle> vehicles;
-
     private int currentTick = 0;
     private boolean running = false;
+    private Road road;
 
     public void start(int maxTicks)
     {
@@ -22,21 +18,29 @@ public class SimulationEngine
     private void tick()
     {
         System.out.println("Tick: " + currentTick);
+        road.update();
 
-        for (Vehicle v : vehicles)
+        for (Vehicle vehicle : road.getVehicles())
         {
-            v.update();
-            System.out.println("Position: " + v.getPosition());
+            System.out.println("Vehicle " + vehicle.getId() +
+                    " Position: " + vehicle.getPosition());
         }
     }
 
     public SimulationEngine()
     {
-        this.vehicles = new ArrayList<>();
+        this.road = new Road();
     }
 
     public void addVehicle(Vehicle vehicle)
     {
-        vehicles.add(vehicle);
+        road.addVehicle(vehicle);
+    }
+
+
+    public Road getRoad()
+    {
+        return road;
     }
 }
+
