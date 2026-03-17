@@ -4,10 +4,12 @@ import java.util.ArrayList;
 public class Road
 {
     private List<Vehicle> vehicles;
+    private double roadLength;
 
-    public Road()
+    public Road(double roadLength)
     {
         this.vehicles = new ArrayList<>();
+        this.roadLength = roadLength;
     }
 
     public void addVehicle(Vehicle vehicle)
@@ -26,6 +28,8 @@ public class Road
         {
             vehicle.update();
         }
+
+        vehicles.removeIf(vehicle -> vehicle.getPosition() > roadLength);
     }
 
     public Vehicle getVehicleAhead(Vehicle currentVehicle)
