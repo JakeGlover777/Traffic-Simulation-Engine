@@ -48,4 +48,16 @@ public class Road
         }
         return closestAhead;
     }
+
+    public boolean canSpawnVehicle()
+    {
+        for (Vehicle vehicle : vehicles)
+        {
+            if (vehicle.getPosition() < 5)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

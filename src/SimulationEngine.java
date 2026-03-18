@@ -1,9 +1,13 @@
 public class SimulationEngine
 {
+    private final double MIN_SPEED = 2.0;
+    private final double MAX_SPEED = 5.0;
+
     private int currentTick = 0;
     private boolean running = false;
     private Road road;
     private int nextVehicleId = 4;
+    private double speed;
 
     public void start(int maxTicks)
     {
@@ -16,13 +20,21 @@ public class SimulationEngine
         }
     }
 
+    private double randomSpeed()
+    {
+        return MIN_SPEED + Math.random() * (MAX_SPEED - MIN_SPEED);
+    }
+
     private void tick()
     {
         System.out.println("Tick: " + currentTick);
 
-        if (currentTick % 3 == 0)
+        if (currentTick % 3 == 0 && road.canSpawnVehicle())
         {
-            Vehicle newVehicle = new Vehicle(1,3.0,nextVehicleId , this.road);
+            double maxSpeed = randomSpeed();
+            double initialSpeed = Math.min(randomSpeed(), maxSpeed);
+
+            Vehicle newVehicle = new Vehicle(initialSpeed, maxSpeed, nextVehicleId, this.road);
             addVehicle(newVehicle);
             nextVehicleId ++;
 
@@ -33,7 +45,7 @@ public class SimulationEngine
         for (Vehicle vehicle : road.getVehicles())
         {
             System.out.println("Vehicle " + vehicle.getId() +
-                    " Position: " + vehicle.getPosition());
+                    " Position: " + String.format("%.2f", vehicle.getPosition()));
         }
     }
 
