@@ -1,10 +1,14 @@
 public class Vehicle
 {
+    private static final double STOP_DISTANCE = 3.0;
+    private static final double BRAKING_DISTANCE = 6.0;
+    private final Road road;
+
     private double position;
     private double speed;
     private double maxSpeed;
     private int id;
-    private Road road;
+
 
     public Vehicle(double initialSpeed, double maxSpeed, int id, Road road)
     {
@@ -23,14 +27,14 @@ public class Vehicle
         if (ahead != null)
         {
             double distanceApart = ahead.getPosition()
-                    - this.getPosition();
+                    - position;
 
-            if (distanceApart < 3)
+            if (distanceApart < STOP_DISTANCE)
             {
                 speed = 0;
             }
 
-            else if (distanceApart < 6)
+            else if (distanceApart < BRAKING_DISTANCE)
             {
                 speed = maxSpeed* 0.5;
             }

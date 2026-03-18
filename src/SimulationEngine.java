@@ -1,13 +1,12 @@
 public class SimulationEngine
 {
-    private final double MIN_SPEED = 2.0;
-    private final double MAX_SPEED = 5.0;
+    private static final double MIN_SPEED = 2.0;
+    private static final double MAX_SPEED = 5.0;
 
     private int currentTick = 0;
     private boolean running = false;
     private Road road;
     private int nextVehicleId = 4;
-    private double speed;
 
     public void start(int maxTicks)
     {
@@ -36,7 +35,7 @@ public class SimulationEngine
 
             Vehicle newVehicle = new Vehicle(initialSpeed, maxSpeed, nextVehicleId, this.road);
             addVehicle(newVehicle);
-            nextVehicleId ++;
+            nextVehicleId++;
 
         }
 

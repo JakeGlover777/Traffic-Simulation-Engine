@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 public class Road
 {
+    private static final double SPAWN_BUFFER = 5.0;
+
     private List<Vehicle> vehicles;
     private double roadLength;
 
@@ -19,7 +21,7 @@ public class Road
 
     public List<Vehicle> getVehicles()
     {
-        return vehicles;
+        return new ArrayList<>(vehicles);
     }
 
     public void update()
@@ -53,7 +55,7 @@ public class Road
     {
         for (Vehicle vehicle : vehicles)
         {
-            if (vehicle.getPosition() < 5)
+            if (vehicle.getPosition() < SPAWN_BUFFER)
             {
                 return false;
             }
