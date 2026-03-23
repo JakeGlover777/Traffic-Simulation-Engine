@@ -1,9 +1,12 @@
 public class Vehicle
 {
+    private static final double MAX_ACCELERATION = 0.5;
+    private static final double MAX_DECELERATION = 1.0;
     private static final double STOP_DISTANCE = 3.0;
     private static final double BRAKING_DISTANCE = 6.0;
     private final Road road;
 
+    private double acceleration;
     private double position;
     private double speed;
     private double maxSpeed;
@@ -21,24 +24,36 @@ public class Vehicle
 
     public void update()
     {
-        speed = maxSpeed;
+        acceleration = MAX_ACCELERATION;
+
         Vehicle ahead = road.getVehicleAhead(this);
 
         if (ahead != null)
         {
-            double distanceApart = ahead.getPosition()
-                    - position;
+            double distanceApart = ahead.getPosition() - position;
 
             if (distanceApart < STOP_DISTANCE)
             {
-                speed = 0;
+                acceleration = -MAX_DECELERATION;
             }
-
             else if (distanceApart < BRAKING_DISTANCE)
             {
-                speed = maxSpeed* 0.5;
+                acceleration = -MAX_DECELERATION / 2;
             }
         }
+
+        speed += acceleration;
+        
+        if (speed > maxSpeed)
+        {
+            speed = maxSpeed;
+        }
+
+        if (speed < 0)
+        {
+            speed = 0;
+        }
+
         position += speed;
     }
 

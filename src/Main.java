@@ -14,6 +14,6 @@ public class Main
         engine.addVehicle(car2);
         engine.addVehicle(car3);
 
-        engine.start(50);
+        engine.start(10);
     }
 }
