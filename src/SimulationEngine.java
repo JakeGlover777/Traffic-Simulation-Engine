@@ -1,72 +1,125 @@
 public class SimulationEngine
 {
-    private static final double MIN_SPEED = 2.0;
-    private static final double MAX_SPEED = 5.0;
+    private final SimulationConfig config;
+    private final Road road;
+    private final SimulationStats stats;
 
-    private int currentTick = 0;
-    private boolean running = false;
-    private Road road;
-    private int nextVehicleId = 4;
+    private int currentTick;
+    private int nextVehicleId;
+    private boolean running;
 
-    public void start(int maxTicks)
+    public SimulationEngine(SimulationConfig config)
+    {
+        this.config = config;
+        this.road = new Road(config.getRoadLength());
+        this.stats = new SimulationStats();
+
+        this.currentTick = 0;
+        this.nextVehicleId = 1;
+        this.running = false;
+    }
+
+    public void start()
     {
         running = true;
 
-        while (running && currentTick < maxTicks)
+        while (running && currentTick < config.getMaxTicks())
         {
             tick();
             currentTick++;
         }
+
+        printFinalStats();
     }
 
-    private double randomSpeed()
+    public void tick()
     {
-        return MIN_SPEED + Math.random() * (MAX_SPEED - MIN_SPEED);
-    }
-
-    private void tick()
-    {
-        System.out.println("Tick: " + currentTick);
-
-        if (currentTick % 3 == 0 && road.canSpawnVehicle())
-        {
-            double maxSpeed = randomSpeed();
-            double initialSpeed = Math.min(randomSpeed(), maxSpeed);
-
-            Vehicle newVehicle = new Vehicle(initialSpeed, maxSpeed, nextVehicleId, this.road);
-            addVehicle(newVehicle);
-            nextVehicleId++;
-
-        }
+        spawnVehicleIfPossible();
 
         road.update();
 
+        int completedVehicles = road.removeCompletedVehicles();
+
+        for (int i = 0; i < completedVehicles; i++)
+        {
+            stats.recordCompletedVehicle();
+        }
+
         for (Vehicle vehicle : road.getVehicles())
         {
-            System.out.println("Vehicle " + vehicle.getId() +
-                    " Position: " + String.format("%.2f", vehicle.getPosition()));
+            stats.recordSpeed(vehicle.getSpeed());
         }
+
+        printTickData();
     }
 
-    public SimulationEngine()
+    private void spawnVehicleIfPossible()
     {
-        this.road = new Road(100);
-    }
-
-    public void addVehicle(Vehicle vehicle)
-    {
-        road.addVehicle(vehicle);
-
-        if (vehicle.getId() >= nextVehicleId)
+        if (currentTick % config.getSpawnInterval() != 0)
         {
-            nextVehicleId = vehicle.getId() + 1;
+            return;
         }
+
+        if (!road.canSpawnVehicle())
+        {
+            return;
+        }
+
+        VehicleType type = getRandomVehicleType();
+
+        Vehicle vehicle = new Vehicle(
+                nextVehicleId,
+                type,
+                road
+        );
+
+        road.addVehicle(vehicle);
+        stats.recordSpawnedVehicle();
+
+        nextVehicleId++;
     }
 
+    private VehicleType getRandomVehicleType()
+    {
+        VehicleType[] types = VehicleType.values();
+
+        int randomIndex = (int) (Math.random() * types.length);
+
+        return types[randomIndex];
+    }
+
+    private void printTickData()
+    {
+        System.out.println("Tick: " + currentTick);
+
+        for (Vehicle vehicle : road.getVehicles())
+        {
+            System.out.println(
+                    "Vehicle " + vehicle.getId()
+                            + " | Type: " + vehicle.getType()
+                            + " | Position: " + String.format("%.2f", vehicle.getPosition())
+                            + " | Speed: " + String.format("%.2f", vehicle.getSpeed())
+            );
+        }
+
+        System.out.println();
+    }
+
+    private void printFinalStats()
+    {
+        System.out.println("Simulation finished.");
+        System.out.println("Vehicles spawned: " + stats.getVehiclesSpawned());
+        System.out.println("Vehicles completed: " + stats.getVehiclesCompleted());
+        System.out.println("Average speed: " + String.format("%.2f", stats.getAverageSpeed()));
+    }
 
     public Road getRoad()
     {
         return road;
     }
-}
 
+    public SimulationStats getStats()
+    {
+        return stats;
+    }
+}

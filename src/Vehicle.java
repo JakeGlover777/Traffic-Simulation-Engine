@@ -1,60 +1,85 @@
 public class Vehicle
 {
-    private static final double MAX_ACCELERATION = 0.5;
     private static final double MAX_DECELERATION = 1.0;
-    private static final double STOP_DISTANCE = 3.0;
-    private static final double BRAKING_DISTANCE = 6.0;
+    private static final double REACTION_TIME = 1.5;
+    private static final double MINIMUM_GAP = 3.0;
+
+    private final int id;
+    private final VehicleType type;
     private final Road road;
 
-    private double acceleration;
     private double position;
     private double speed;
-    private double maxSpeed;
-    private int id;
+    private double acceleration;
 
-
-    public Vehicle(double initialSpeed, double maxSpeed, int id, Road road)
+    public Vehicle(int id, VehicleType type, Road road)
     {
-        this.position = 0;
-        this.speed = initialSpeed;
-        this.maxSpeed = maxSpeed;
         this.id = id;
+        this.type = type;
         this.road = road;
+
+        this.position = 0;
+        this.speed = type.getMaxSpeed() * 0.5;
+        this.acceleration = 0;
     }
 
     public void update()
     {
-        acceleration = MAX_ACCELERATION;
+        acceleration = type.getMaxAcceleration();
 
-        Vehicle ahead = road.getVehicleAhead(this);
+        Vehicle vehicleAhead = road.getVehicleAhead(this);
 
-        if (ahead != null)
+        if (vehicleAhead != null)
         {
-            double distanceApart = ahead.getPosition() - position;
+            double distanceToVehicleAhead =
+                    vehicleAhead.getPosition() - this.position;
 
-            if (distanceApart < STOP_DISTANCE)
+            double safeDistance =
+                    calculateSafeFollowingDistance();
+
+            if (distanceToVehicleAhead < safeDistance)
             {
                 acceleration = -MAX_DECELERATION;
             }
-            else if (distanceApart < BRAKING_DISTANCE)
-            {
-                acceleration = -MAX_DECELERATION / 2;
-            }
         }
 
+        updateSpeed();
+        updatePosition();
+    }
+
+    private double calculateSafeFollowingDistance()
+    {
+        return (speed * REACTION_TIME) + type.getLength() + MINIMUM_GAP;
+    }
+
+    private void updateSpeed()
+    {
         speed += acceleration;
-        
-        if (speed > maxSpeed)
+
+        if (speed > type.getMaxSpeed())
         {
-            speed = maxSpeed;
+            speed = type.getMaxSpeed();
         }
 
         if (speed < 0)
         {
             speed = 0;
         }
+    }
 
+    private void updatePosition()
+    {
         position += speed;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public VehicleType getType()
+    {
+        return type;
     }
 
     public double getPosition()
@@ -62,8 +87,13 @@ public class Vehicle
         return position;
     }
 
-    public int getId()
+    public double getSpeed()
     {
-        return id;
+        return speed;
+    }
+
+    public double getAcceleration()
+    {
+        return acceleration;
     }
 }

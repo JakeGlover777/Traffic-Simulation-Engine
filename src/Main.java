@@ -2,18 +2,16 @@ public class Main
 {
     public static void main(String[] args)
     {
-        SimulationEngine engine = new SimulationEngine();
+        SimulationConfig config = new SimulationConfig(
+                200.0,
+                100,
+                2,
+                2.0,
+                5.0
+        );
 
-        Road road = engine.getRoad();
+        SimulationEngine engine = new SimulationEngine(config);
 
-        Vehicle car1 = new Vehicle(1.5,3,1, road);
-        Vehicle car2 = new Vehicle(1.0,4,2, road);
-        Vehicle car3 = new Vehicle(2.0,2,3, road);
-
-        engine.addVehicle(car1);
-        engine.addVehicle(car2);
-        engine.addVehicle(car3);
-
-        engine.start(10);
+        engine.start();
     }
 }

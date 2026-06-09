@@ -1,12 +1,12 @@
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Road
 {
-    private static final double SPAWN_BUFFER = 5.0;
+    private static final double SPAWN_BUFFER = 8.0;
 
-    private List<Vehicle> vehicles;
-    private double roadLength;
+    private final List<Vehicle> vehicles;
+    private final double roadLength;
 
     public Road(double roadLength)
     {
@@ -16,12 +16,7 @@ public class Road
 
     public void addVehicle(Vehicle vehicle)
     {
-        this.vehicles.add(vehicle);
-    }
-
-    public List<Vehicle> getVehicles()
-    {
-        return new ArrayList<>(vehicles);
+        vehicles.add(vehicle);
     }
 
     public void update()
@@ -30,8 +25,15 @@ public class Road
         {
             vehicle.update();
         }
+    }
+
+    public int removeCompletedVehicles()
+    {
+        int before = vehicles.size();
 
         vehicles.removeIf(vehicle -> vehicle.getPosition() > roadLength);
+
+        return before - vehicles.size();
     }
 
     public Vehicle getVehicleAhead(Vehicle currentVehicle)
@@ -40,14 +42,21 @@ public class Road
 
         for (Vehicle vehicle : vehicles)
         {
-            if(vehicle.getPosition() > currentVehicle.getPosition())
+            if (vehicle == currentVehicle)
             {
-                if(closestAhead == null|| vehicle.getPosition() < closestAhead.getPosition())
+                continue;
+            }
+
+            if (vehicle.getPosition() > currentVehicle.getPosition())
+            {
+                if (closestAhead == null ||
+                        vehicle.getPosition() < closestAhead.getPosition())
                 {
                     closestAhead = vehicle;
                 }
             }
         }
+
         return closestAhead;
     }
 
@@ -60,6 +69,17 @@ public class Road
                 return false;
             }
         }
+
         return true;
+    }
+
+    public List<Vehicle> getVehicles()
+    {
+        return new ArrayList<>(vehicles);
+    }
+
+    public double getRoadLength()
+    {
+        return roadLength;
     }
 }
