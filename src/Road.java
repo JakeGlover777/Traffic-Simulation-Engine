@@ -19,12 +19,22 @@ public class Road
         vehicles.add(vehicle);
     }
 
-    public void update()
+    public int update()
     {
+        int nearCollisionsThisTick = 0;
+
         for (Vehicle vehicle : vehicles)
         {
-            vehicle.update();
+            boolean nearCollisionDetected =
+                    vehicle.update();
+
+            if (nearCollisionDetected)
+            {
+                nearCollisionsThisTick++;
+            }
         }
+
+        return nearCollisionsThisTick;
     }
 
     public int removeCompletedVehicles()
@@ -81,5 +91,10 @@ public class Road
     public double getRoadLength()
     {
         return roadLength;
+    }
+
+    public int getVehicleCount()
+    {
+        return vehicles.size();
     }
 }

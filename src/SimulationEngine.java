@@ -36,7 +36,9 @@ public class SimulationEngine
     {
         spawnVehicleIfPossible();
 
-        road.update();
+        int nearCollisionsThisTick = road.update();
+
+        stats.recordNearCollisions(nearCollisionsThisTick);
 
         int completedVehicles = road.removeCompletedVehicles();
 
@@ -102,6 +104,11 @@ public class SimulationEngine
             );
         }
 
+        System.out.println(
+                "Traffic density: "
+                        + String.format("%.3f", calculateTrafficDensity())
+        );
+
         System.out.println();
     }
 
@@ -111,6 +118,7 @@ public class SimulationEngine
         System.out.println("Vehicles spawned: " + stats.getVehiclesSpawned());
         System.out.println("Vehicles completed: " + stats.getVehiclesCompleted());
         System.out.println("Average speed: " + String.format("%.2f", stats.getAverageSpeed()));
+        System.out.println("Near collisions: " + stats.getNearCollisions());
     }
 
     public Road getRoad()
@@ -121,5 +129,10 @@ public class SimulationEngine
     public SimulationStats getStats()
     {
         return stats;
+    }
+
+    private double calculateTrafficDensity()
+    {
+        return road.getVehicleCount() / road.getRoadLength();
     }
 }

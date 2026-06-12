@@ -5,6 +5,7 @@ public class SimulationStats
 
     private double totalSpeed;
     private int speedSamples;
+    private int nearCollisions;
 
     public void recordSpawnedVehicle()
     {
@@ -40,5 +41,15 @@ public class SimulationStats
         }
 
         return totalSpeed / speedSamples;
+    }
+
+    public void recordNearCollisions(int count)
+    {
+        nearCollisions += count;
+    }
+
+    public int getNearCollisions()
+    {
+        return nearCollisions;
     }
 }

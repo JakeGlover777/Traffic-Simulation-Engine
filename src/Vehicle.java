@@ -3,6 +3,7 @@ public class Vehicle
     private static final double MAX_DECELERATION = 1.0;
     private static final double REACTION_TIME = 1.5;
     private static final double MINIMUM_GAP = 3.0;
+    private static final double NEAR_COLLISION_DISTANCE = 2.0;
 
     private final int id;
     private final VehicleType type;
@@ -23,8 +24,10 @@ public class Vehicle
         this.acceleration = 0;
     }
 
-    public void update()
+    public boolean update()
     {
+        boolean nearCollisionDetected = false;
+
         acceleration = type.getMaxAcceleration();
 
         Vehicle vehicleAhead = road.getVehicleAhead(this);
@@ -33,6 +36,11 @@ public class Vehicle
         {
             double distanceToVehicleAhead =
                     vehicleAhead.getPosition() - this.position;
+
+            if (distanceToVehicleAhead < NEAR_COLLISION_DISTANCE)
+            {
+                nearCollisionDetected = true;
+            }
 
             double safeDistance =
                     calculateSafeFollowingDistance();
@@ -45,6 +53,8 @@ public class Vehicle
 
         updateSpeed();
         updatePosition();
+
+        return nearCollisionDetected;
     }
 
     private double calculateSafeFollowingDistance()
