@@ -109,6 +109,10 @@ public class SimulationEngine
                         + String.format("%.3f", calculateTrafficDensity())
         );
 
+        System.out.println(
+                "Congestion level: " + getCongestionLevel()
+        );
+
         System.out.println();
     }
 
@@ -119,6 +123,7 @@ public class SimulationEngine
         System.out.println("Vehicles completed: " + stats.getVehiclesCompleted());
         System.out.println("Average speed: " + String.format("%.2f", stats.getAverageSpeed()));
         System.out.println("Near collisions: " + stats.getNearCollisions());
+        System.out.println("Final congestion level: " + getCongestionLevel());
     }
 
     public Road getRoad()
@@ -134,5 +139,22 @@ public class SimulationEngine
     private double calculateTrafficDensity()
     {
         return road.getVehicleCount() / road.getRoadLength();
+    }
+
+    private String getCongestionLevel()
+    {
+        double density = calculateTrafficDensity();
+
+        if (density < 0.03)
+        {
+            return "Low";
+        }
+
+        if (density < 0.06)
+        {
+            return "Moderate";
+        }
+
+        return "Heavy";
     }
 }
