@@ -42,6 +42,14 @@ public class SimulationEngine
 
         int completedVehicles = road.removeCompletedVehicles();
 
+        if (completedVehicles > 0)
+        {
+            System.out.println(
+                    "Event: " + completedVehicles
+                            + " vehicle(s) completed the road"
+            );
+        }
+
         for (int i = 0; i < completedVehicles; i++)
         {
             stats.recordCompletedVehicle();
@@ -77,6 +85,11 @@ public class SimulationEngine
 
         road.addVehicle(vehicle);
         stats.recordSpawnedVehicle();
+
+        System.out.println(
+                "Event: Vehicle " + vehicle.getId()
+                        + " spawned as " + vehicle.getType()
+        );
 
         nextVehicleId++;
     }
