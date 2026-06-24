@@ -1,7 +1,8 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class TrafficSimulationApp extends Application
@@ -9,10 +10,18 @@ public class TrafficSimulationApp extends Application
     @Override
     public void start(Stage stage)
     {
-        Label title = new Label("Traffic Simulation Engine");
+        Pane root = new Pane();
 
-        BorderPane root = new BorderPane();
-        root.setCenter(title);
+        Rectangle road = new Rectangle(
+                0,
+                220,
+                1000,
+                60
+        );
+
+        road.setFill(Color.GRAY);
+
+        root.getChildren().add(road);
 
         Scene scene = new Scene(root, 1000, 500);
 
