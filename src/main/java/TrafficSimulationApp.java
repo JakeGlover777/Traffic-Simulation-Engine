@@ -7,31 +7,31 @@ import javafx.stage.Stage;
 
 public class TrafficSimulationApp extends Application
 {
+    private SimulationEngine engine;
+    private Pane root;
+
     @Override
     public void start(Stage stage)
     {
-        Pane root = new Pane();
+        root = new Pane();
 
-        Rectangle road = new Rectangle(
-                0,
-                220,
-                1000,
-                60
+        SimulationConfig config = new SimulationConfig(
+                200.0,
+                100,
+                2,
+                2.0,
+                5.0
         );
 
-        road.setFill(Color.GRAY);
+        engine = new SimulationEngine(config);
 
-        Rectangle vehicle = new Rectangle(
-                50,
-                235,
-                30,
-                20
-        );
+        for (int i = 0; i < 20; i++)
+        {
+            engine.tick();
+        }
 
-        vehicle.setFill(Color.BLUE);
-
-        root.getChildren().add(road);
-        root.getChildren().add(vehicle);
+        renderRoad();
+        renderVehicles();
 
         Scene scene = new Scene(
                 root,
@@ -42,6 +42,37 @@ public class TrafficSimulationApp extends Application
         stage.setTitle("Traffic Simulation Engine");
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void renderRoad()
+    {
+        Rectangle road = new Rectangle(
+                0,
+                220,
+                1000,
+                60
+        );
+
+        road.setFill(Color.GRAY);
+
+        root.getChildren().add(road);
+    }
+
+    private void renderVehicles()
+    {
+        for (Vehicle vehicle : engine.getRoad().getVehicles())
+        {
+            Rectangle vehicleShape = new Rectangle(
+                    50 + vehicle.getPosition() * 4,
+                    235,
+                    30,
+                    20
+            );
+
+            vehicleShape.setFill(Color.BLUE);
+
+            root.getChildren().add(vehicleShape);
+        }
     }
 
     public static void main(String[] args)
