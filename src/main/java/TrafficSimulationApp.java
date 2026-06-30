@@ -21,9 +21,23 @@ public class TrafficSimulationApp extends Application
 
         road.setFill(Color.GRAY);
 
-        root.getChildren().add(road);
+        Rectangle vehicle = new Rectangle(
+                50,
+                235,
+                30,
+                20
+        );
 
-        Scene scene = new Scene(root, 1000, 500);
+        vehicle.setFill(Color.BLUE);
+
+        root.getChildren().add(road);
+        root.getChildren().add(vehicle);
+
+        Scene scene = new Scene(
+                root,
+                1000,
+                500
+        );
 
         stage.setTitle("Traffic Simulation Engine");
         stage.setScene(scene);
