@@ -4,6 +4,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class TrafficSimulationApp extends Application
 {
@@ -25,11 +28,6 @@ public class TrafficSimulationApp extends Application
 
         engine = new SimulationEngine(config);
 
-        for (int i = 0; i < 20; i++)
-        {
-            engine.tick();
-        }
-
         renderRoad();
         renderVehicles();
 
@@ -42,6 +40,26 @@ public class TrafficSimulationApp extends Application
         stage.setTitle("Traffic Simulation Engine");
         stage.setScene(scene);
         stage.show();
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(
+                        Duration.millis(100),
+                        e -> updateSimulation()
+                )
+        );
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
+    private void updateSimulation()
+    {
+        engine.tick();
+
+        root.getChildren().clear();
+
+        renderRoad();
+        renderVehicles();
     }
 
     private void renderRoad()
