@@ -18,35 +18,22 @@ public class TrafficSimulationApp extends Application
     {
         root = new Pane();
 
-        SimulationConfig config = new SimulationConfig(
-                200.0,
-                100,
-                2,
-                2.0,
-                5.0
-        );
+        SimulationConfig config = new SimulationConfig(200.0, 100,
+                2, 2.0, 5.0);
 
         engine = new SimulationEngine(config);
 
         renderRoad();
         renderVehicles();
 
-        Scene scene = new Scene(
-                root,
-                1000,
-                500
-        );
+        Scene scene = new Scene(root, 1000, 500);
 
         stage.setTitle("Traffic Simulation Engine");
         stage.setScene(scene);
         stage.show();
 
         Timeline timeline = new Timeline(
-                new KeyFrame(
-                        Duration.millis(100),
-                        e -> updateSimulation()
-                )
-        );
+                new KeyFrame(Duration.millis(100), e -> updateSimulation()));
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
@@ -64,12 +51,7 @@ public class TrafficSimulationApp extends Application
 
     private void renderRoad()
     {
-        Rectangle road = new Rectangle(
-                0,
-                220,
-                1000,
-                60
-        );
+        Rectangle road = new Rectangle(0, 220, 1000, 60);
 
         road.setFill(Color.GRAY);
 
@@ -80,12 +62,8 @@ public class TrafficSimulationApp extends Application
     {
         for (Vehicle vehicle : engine.getRoad().getVehicles())
         {
-            Rectangle vehicleShape = new Rectangle(
-                    50 + vehicle.getPosition() * 4,
-                    235,
-                    30,
-                    20
-            );
+            Rectangle vehicleShape = new Rectangle(50 + vehicle.getPosition() * 4,
+                    235, 30, 20);
 
             vehicleShape.setFill(Color.BLUE);
 

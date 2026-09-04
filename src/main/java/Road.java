@@ -59,8 +59,8 @@ public class Road
 
             if (vehicle.getPosition() > currentVehicle.getPosition())
             {
-                if (closestAhead == null ||
-                        vehicle.getPosition() < closestAhead.getPosition())
+                if (closestAhead == null
+                        || vehicle.getPosition() < closestAhead.getPosition())
                 {
                     closestAhead = vehicle;
                 }

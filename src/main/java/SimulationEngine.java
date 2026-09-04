@@ -4,6 +4,9 @@ public class SimulationEngine
     private final Road road;
     private final SimulationStats stats;
 
+    private static final double LOW_CONGESTION_THRESHOLD = 0.03;
+    private static final double MODERATE_CONGESTION_THRESHOLD = 0.06;
+
     private int currentTick;
     private int nextVehicleId;
     private boolean running;
@@ -44,10 +47,8 @@ public class SimulationEngine
 
         if (completedVehicles > 0)
         {
-            System.out.println(
-                    "Event: " + completedVehicles
-                            + " vehicle(s) completed the road"
-            );
+            System.out.println("Event: " + completedVehicles
+                            + " vehicle(s) completed the road");
         }
 
         for (int i = 0; i < completedVehicles; i++)
@@ -77,19 +78,13 @@ public class SimulationEngine
 
         VehicleType type = getRandomVehicleType();
 
-        Vehicle vehicle = new Vehicle(
-                nextVehicleId,
-                type,
-                road
-        );
+        Vehicle vehicle = new Vehicle(nextVehicleId, type, road);
 
         road.addVehicle(vehicle);
         stats.recordSpawnedVehicle();
 
-        System.out.println(
-                "Event: Vehicle " + vehicle.getId()
-                        + " spawned as " + vehicle.getType()
-        );
+        System.out.println("Event: Vehicle " + vehicle.getId()
+                        + " spawned as " + vehicle.getType());
 
         nextVehicleId++;
     }
@@ -109,22 +104,16 @@ public class SimulationEngine
 
         for (Vehicle vehicle : road.getVehicles())
         {
-            System.out.println(
-                    "Vehicle " + vehicle.getId()
+            System.out.println("Vehicle " + vehicle.getId()
                             + " | Type: " + vehicle.getType()
                             + " | Position: " + String.format("%.2f", vehicle.getPosition())
-                            + " | Speed: " + String.format("%.2f", vehicle.getSpeed())
-            );
+                            + " | Speed: " + String.format("%.2f", vehicle.getSpeed()));
         }
 
-        System.out.println(
-                "Traffic density: "
-                        + String.format("%.3f", calculateTrafficDensity())
-        );
+        System.out.println("Traffic density: "
+                        + String.format("%.3f", calculateTrafficDensity()));
 
-        System.out.println(
-                "Congestion level: " + getCongestionLevel()
-        );
+        System.out.println("Congestion level: " + getCongestionLevel());
 
         System.out.println();
     }
@@ -158,12 +147,12 @@ public class SimulationEngine
     {
         double density = calculateTrafficDensity();
 
-        if (density < 0.03)
+        if (density < LOW_CONGESTION_THRESHOLD)
         {
             return "Low";
         }
 
-        if (density < 0.06)
+        if (density < MODERATE_CONGESTION_THRESHOLD)
         {
             return "Moderate";
         }

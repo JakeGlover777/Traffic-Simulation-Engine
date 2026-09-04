@@ -4,6 +4,7 @@ public class Vehicle
     private static final double REACTION_TIME = 1.5;
     private static final double MINIMUM_GAP = 3.0;
     private static final double NEAR_COLLISION_DISTANCE = 2.0;
+    private static final double INITIAL_SPEED_FACTOR = 0.5;
 
     private final int id;
     private final VehicleType type;
@@ -20,7 +21,7 @@ public class Vehicle
         this.road = road;
 
         this.position = 0;
-        this.speed = type.getMaxSpeed() * 0.5;
+        this.speed = type.getMaxSpeed() * INITIAL_SPEED_FACTOR;
         this.acceleration = 0;
     }
 

@@ -6,11 +6,8 @@ public class SimulationConfig
     private final double minSpeed;
     private final double maxSpeed;
 
-    public SimulationConfig(double roadLength,
-                            int maxTicks,
-                            int spawnInterval,
-                            double minSpeed,
-                            double maxSpeed)
+    public SimulationConfig(double roadLength, int maxTicks, int spawnInterval,
+                            double minSpeed, double maxSpeed)
     {
         this.roadLength = roadLength;
         this.maxTicks = maxTicks;
