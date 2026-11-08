@@ -45,12 +45,6 @@ public class SimulationEngine
 
         int completedVehicles = road.removeCompletedVehicles();
 
-        if (completedVehicles > 0)
-        {
-            System.out.println("Event: " + completedVehicles
-                    + " vehicle(s) completed the road");
-        }
-
         for (int i = 0; i < completedVehicles; i++)
         {
             stats.recordCompletedVehicle();
@@ -61,16 +55,14 @@ public class SimulationEngine
             stats.recordSpeed(vehicle.getSpeed());
         }
 
-        printTickData();
-
         currentTick++;
 
         if (currentTick >= config.getMaxTicks())
         {
             running = false;
-            printFinalStats();
         }
     }
+
     private void spawnVehicleIfPossible()
     {
         if (currentTick % config.getSpawnInterval() != 0)
@@ -90,9 +82,6 @@ public class SimulationEngine
         road.addVehicle(vehicle);
         stats.recordSpawnedVehicle();
 
-        System.out.println("Event: Vehicle " + vehicle.getId()
-                        + " spawned as " + vehicle.getType());
-
         nextVehicleId++;
     }
 
@@ -105,46 +94,6 @@ public class SimulationEngine
         return types[randomIndex];
     }
 
-    public int getCurrentTick()
-    {
-        return currentTick;
-    }
-
-    public boolean isRunning()
-    {
-        return running;
-    }
-
-    private void printTickData()
-    {
-        System.out.println("Tick: " + currentTick);
-
-        for (Vehicle vehicle : road.getVehicles())
-        {
-            System.out.println("Vehicle " + vehicle.getId()
-                            + " | Type: " + vehicle.getType()
-                            + " | Position: " + String.format("%.2f", vehicle.getPosition())
-                            + " | Speed: " + String.format("%.2f", vehicle.getSpeed()));
-        }
-
-        System.out.println("Traffic density: "
-                        + String.format("%.3f", calculateTrafficDensity()));
-
-        System.out.println("Congestion level: " + getCongestionLevel());
-
-        System.out.println();
-    }
-
-    private void printFinalStats()
-    {
-        System.out.println("Simulation finished.");
-        System.out.println("Vehicles spawned: " + stats.getVehiclesSpawned());
-        System.out.println("Vehicles completed: " + stats.getVehiclesCompleted());
-        System.out.println("Average speed: " + String.format("%.2f", stats.getAverageSpeed()));
-        System.out.println("Near collisions: " + stats.getNearCollisions());
-        System.out.println("Final congestion level: " + getCongestionLevel());
-    }
-
     public Road getRoad()
     {
         return road;
@@ -155,12 +104,32 @@ public class SimulationEngine
         return stats;
     }
 
+    public int getCurrentTick()
+    {
+        return currentTick;
+    }
+
+    public boolean isRunning()
+    {
+        return running;
+    }
+
+    public double getTrafficDensity()
+    {
+        return calculateTrafficDensity();
+    }
+
+    public String getCongestionLevel()
+    {
+        return calculateCongestionLevel();
+    }
+
     private double calculateTrafficDensity()
     {
         return road.getVehicleCount() / road.getRoadLength();
     }
 
-    private String getCongestionLevel()
+    private String calculateCongestionLevel()
     {
         double density = calculateTrafficDensity();
 

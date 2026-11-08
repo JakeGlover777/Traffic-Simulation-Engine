@@ -43,6 +43,11 @@ public class SimulationStats
         return totalSpeed / speedSamples;
     }
 
+    public int getSpeedSamples()
+    {
+        return speedSamples;
+    }
+
     public void recordNearCollisions(int count)
     {
         nearCollisions += count;
