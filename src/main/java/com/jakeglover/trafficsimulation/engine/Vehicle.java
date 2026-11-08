@@ -1,3 +1,5 @@
+package com.jakeglover.trafficsimulation.engine;
+
 public class Vehicle
 {
     private static final double MAX_DECELERATION = 1.0;

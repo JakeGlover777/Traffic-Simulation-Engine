@@ -1,3 +1,6 @@
+import com.jakeglover.trafficsimulation.engine.SimulationConfig;
+import com.jakeglover.trafficsimulation.engine.SimulationEngine;
+import com.jakeglover.trafficsimulation.engine.Vehicle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;

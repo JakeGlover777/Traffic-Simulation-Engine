@@ -1,3 +1,5 @@
+package com.jakeglover.trafficsimulation.engine;
+
 public enum VehicleType
 {
     CAR(5.0, 0.5, 4.5),

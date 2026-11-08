@@ -1,3 +1,5 @@
+package com.jakeglover.trafficsimulation.engine;
+
 public class SimulationStats
 {
     private int vehiclesSpawned;

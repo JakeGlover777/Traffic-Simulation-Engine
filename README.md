@@ -15,9 +15,9 @@ This project was built to strengthen my understanding of software engineering pr
 ## Features
 
 - ✅ Real-time JavaFX visualisation
-- ✅ Vehicle spawning system
+- ✅ com.jakeglover.trafficsimulation.engine.Vehicle spawning system
 - ✅ Multiple vehicle types (Car, Bus, Truck)
-- ✅ Vehicle acceleration and deceleration
+- ✅ com.jakeglover.trafficsimulation.engine.Vehicle acceleration and deceleration
 - ✅ Safe following distance logic
 - ✅ Near-collision detection
 - ✅ Traffic density calculation
@@ -45,17 +45,17 @@ This project was built to strengthen my understanding of software engineering pr
 TrafficSimulationApp
         │
         ▼
-SimulationEngine
+com.jakeglover.trafficsimulation.engine.SimulationEngine
         │
  ┌──────┴──────┐
  ▼             ▼
-Road      SimulationStats
+com.jakeglover.trafficsimulation.engine.Road      com.jakeglover.trafficsimulation.engine.SimulationStats
  │
  ▼
-Vehicle
+com.jakeglover.trafficsimulation.engine.Vehicle
  │
  ▼
-VehicleType
+com.jakeglover.trafficsimulation.engine.VehicleType
 ```
 
 ---
@@ -64,10 +64,10 @@ VehicleType
 
 The simulation currently models:
 
-- Vehicle spawning at configurable intervals
+- com.jakeglover.trafficsimulation.engine.Vehicle spawning at configurable intervals
 - Different vehicle types with unique driving characteristics
 - Safe following behaviour
-- Vehicle movement across the road
+- com.jakeglover.trafficsimulation.engine.Vehicle movement across the road
 - Vehicles leaving the simulation when they reach the end of the road
 - Real-time rendering using JavaFX
 
@@ -90,13 +90,13 @@ mvn javafx:run
 
 ## Planned Features
 
-- [ ] Vehicle colours based on type
+- [ ] com.jakeglover.trafficsimulation.engine.Vehicle colours based on type
 - [ ] Lane markings
 - [ ] Statistics dashboard
 - [ ] Start/Pause controls
 - [ ] Multiple lanes
 - [ ] Traffic lights
-- [ ] Road intersections
+- [ ] com.jakeglover.trafficsimulation.engine.Road intersections
 - [ ] Corner and waypoint routing
 - [ ] Adjustable simulation speed
 - [ ] Save and load simulation states

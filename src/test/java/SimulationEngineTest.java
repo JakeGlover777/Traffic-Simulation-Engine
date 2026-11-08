@@ -1,3 +1,5 @@
+import com.jakeglover.trafficsimulation.engine.SimulationConfig;
+import com.jakeglover.trafficsimulation.engine.SimulationEngine;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
