@@ -24,19 +24,19 @@ public class SimulationEngine
 
     public void start()
     {
-        running = true;
-
-        while (running && currentTick < config.getMaxTicks())
+        if (currentTick < config.getMaxTicks())
         {
-            tick();
-            currentTick++;
+            running = true;
         }
-
-        printFinalStats();
     }
 
     public void tick()
     {
+        if (!running || currentTick >= config.getMaxTicks())
+        {
+            return;
+        }
+
         spawnVehicleIfPossible();
 
         int nearCollisionsThisTick = road.update();
@@ -48,7 +48,7 @@ public class SimulationEngine
         if (completedVehicles > 0)
         {
             System.out.println("Event: " + completedVehicles
-                            + " vehicle(s) completed the road");
+                    + " vehicle(s) completed the road");
         }
 
         for (int i = 0; i < completedVehicles; i++)
@@ -62,8 +62,15 @@ public class SimulationEngine
         }
 
         printTickData();
-    }
 
+        currentTick++;
+
+        if (currentTick >= config.getMaxTicks())
+        {
+            running = false;
+            printFinalStats();
+        }
+    }
     private void spawnVehicleIfPossible()
     {
         if (currentTick % config.getSpawnInterval() != 0)
@@ -96,6 +103,16 @@ public class SimulationEngine
         int randomIndex = (int) (Math.random() * types.length);
 
         return types[randomIndex];
+    }
+
+    public int getCurrentTick()
+    {
+        return currentTick;
+    }
+
+    public boolean isRunning()
+    {
+        return running;
     }
 
     private void printTickData()

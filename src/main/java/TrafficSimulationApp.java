@@ -12,6 +12,7 @@ public class TrafficSimulationApp extends Application
 {
     private SimulationEngine engine;
     private Pane root;
+    private Timeline timeline;
 
     @Override
     public void start(Stage stage)
@@ -32,21 +33,35 @@ public class TrafficSimulationApp extends Application
         stage.setScene(scene);
         stage.show();
 
-        Timeline timeline = new Timeline(
+        timeline = new Timeline(
                 new KeyFrame(Duration.millis(100), e -> updateSimulation()));
 
         timeline.setCycleCount(Timeline.INDEFINITE);
+
+        engine.start();
+
         timeline.play();
     }
 
     private void updateSimulation()
     {
+        if (!engine.isRunning())
+        {
+            timeline.stop();
+            return;
+        }
+
         engine.tick();
 
         root.getChildren().clear();
 
         renderRoad();
         renderVehicles();
+
+        if (!engine.isRunning())
+        {
+            timeline.stop();
+        }
     }
 
     private void renderRoad()
