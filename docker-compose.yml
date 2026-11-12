@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: traffic-postgres
+    environment:
+      POSTGRES_DB: traffic_simulation
+      POSTGRES_USER: traffic_user
+      POSTGRES_PASSWORD: traffic_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - traffic_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  traffic_postgres_data:

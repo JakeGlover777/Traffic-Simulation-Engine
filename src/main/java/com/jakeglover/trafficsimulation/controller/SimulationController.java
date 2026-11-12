@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.jakeglover.trafficsimulation.entity.SimulationRun;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/simulations")
@@ -55,5 +59,17 @@ public class SimulationController
                 engine.getStats().getVehiclesCompleted(),
                 engine.getStats().getAverageSpeed(),
                 engine.getStats().getNearCollisions());
+    }
+
+    @GetMapping("/{id}")
+    public SimulationRun getSimulationRun(@PathVariable Long id)
+    {
+        return simulationService.getSimulationRun(id);
+    }
+
+    @GetMapping("/history")
+    public List<SimulationRun> getSimulationHistory()
+    {
+        return simulationService.getSimulationHistory();
     }
 }

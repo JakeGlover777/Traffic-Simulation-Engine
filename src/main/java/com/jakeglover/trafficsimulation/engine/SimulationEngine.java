@@ -111,6 +111,11 @@ public class SimulationEngine
         return currentTick;
     }
 
+    public int getMaxTicks()
+    {
+        return config.getMaxTicks();
+    }
+
     public boolean isRunning()
     {
         return running;
